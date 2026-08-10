@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gwen the Fwix — Stream Pet</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="overlay" aria-label="Gwen stream overlay">
+    <div id="pet" aria-hidden="true">
+      <img id="sprite" src="idle-00.webp" alt="">
+    </div>
+    <div id="connectionBadge">waiting for Gwen Controller</div>
+  </main>
+
+  <main id="controller" hidden>
+    <section class="panel">
+      <div class="eyebrow">GWEN THE FWIX</div>
+      <h1>Voice controller</h1>
+      <p>This page analyzes microphone volume locally. It never sends or records your audio.</p>
+      <label for="room">Private room code</label>
+      <div class="row">
+        <input id="room" autocomplete="off" spellcheck="false">
+        <button id="applyRoom" class="secondary">Connect</button>
+      </div>
+      <label for="sensitivity">Voice sensitivity</label>
+      <input id="sensitivity" type="range" min="0.8" max="4" value="2.2" step="0.1">
+      <div class="meter"><span id="meterFill"></span></div>
+      <button id="startMic">Enable microphone</button>
+      <button id="testTalk" class="secondary">Test Gwen</button>
+      <p id="status" role="status">Choose a room and enable your microphone.</p>
+      <details>
+        <summary>Lightstream overlay URL</summary>
+        <code id="overlayUrl"></code>
+      </details>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

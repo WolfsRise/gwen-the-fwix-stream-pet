@@ -1,0 +1,96 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  pointer-events: none;
+}
+
+#pet {
+  --energy: 0;
+  position: relative;
+  width: 192px;
+  height: 208px;
+  transform-origin: 50% 94%;
+  transform: translateY(calc(var(--energy) * -3px)) scaleX(calc(1 + var(--energy) * .018)) scaleY(calc(1 + var(--energy) * .026));
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, .28));
+}
+
+#sprite {
+  position: absolute;
+  inset: 0;
+  width: 192px;
+  height: 208px;
+  object-fit: contain;
+}
+
+#connectionBadge {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: rgba(255,255,255,.62);
+  background: rgba(18, 12, 24, .62);
+  font-size: 11px;
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+
+#connectionBadge.connected { opacity: 0; }
+
+#controller {
+  min-height: 100%;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 20% 0%, #46315c 0, transparent 38%), #17121e;
+  color: #f8f0ff;
+}
+
+.panel {
+  width: min(520px, 100%);
+  padding: 28px;
+  border: 1px solid rgba(219, 179, 255, .18);
+  border-radius: 22px;
+  background: rgba(31, 24, 40, .94);
+  box-shadow: 0 24px 80px rgba(0,0,0,.35);
+}
+
+.eyebrow { color: #d4a8ff; font-size: 12px; font-weight: 800; letter-spacing: .16em; }
+h1 { margin: 8px 0; font-size: 30px; }
+p { color: #cfc4d7; line-height: 1.5; }
+label { display: block; margin: 20px 0 8px; color: #e9dff0; font-weight: 650; }
+.row { display: flex; gap: 8px; }
+input[type="text"], input:not([type]) { flex: 1; min-width: 0; }
+input, button { font: inherit; }
+input:not([type="range"]) { padding: 11px 12px; border: 1px solid #574763; border-radius: 10px; color: white; background: #17121e; }
+input[type="range"] { width: 100%; accent-color: #b976f1; }
+button { width: 100%; margin-top: 12px; padding: 12px 16px; border: 0; border-radius: 11px; color: #201426; background: #d2a2f6; font-weight: 800; cursor: pointer; }
+.row button { width: auto; margin: 0; }
+button.secondary { color: #eadcf4; background: #493a55; }
+.meter { height: 12px; margin: 10px 0 18px; overflow: hidden; border-radius: 99px; background: #100c15; }
+.meter span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #73d6b1, #d2a2f6, #ff7f9f); transition: width .06s linear; }
+code { display: block; margin-top: 12px; padding: 12px; overflow-wrap: anywhere; border-radius: 8px; color: #d9c7e7; background: #100c15; }
+details { margin-top: 18px; color: #cfc4d7; }
+
+@media (max-width: 520px) {
+  #controller { padding: 12px; }
+  .panel { padding: 20px; border-radius: 16px; }
+}
