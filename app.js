@@ -19,12 +19,45 @@
     const sprite = document.querySelector("#sprite");
     const badge = document.querySelector("#connectionBadge");
     if (params.get("debug") === "1") badge.style.opacity = "1";
-    const idleFrames = [0, 1, 2, 3, 4, 5];
-    const idleDurations = [280, 110, 110, 140, 140, 320];
-    let energy = 0;
+    const idleFrames = [
+      "gwen-idle-v3-00.webp",
+      "gwen-idle-v3-01.webp",
+      "gwen-idle-v3-02.webp",
+      "gwen-idle-v3-03.webp",
+      "gwen-idle-v3-04.webp",
+      "gwen-idle-v3-05.webp"
+    ];
+    const idleDurations = [2200, 180, 1900, 2400, 2100, 2300];
+    const talkFrames = {
+      rest: "gwen-talk-rest-v3.webp",
+      open: "gwen-talk-open-v3.webp",
+      round: "gwen-talk-round-v3.webp"
+    };
+    const speechOnset = .11;
+    const speechRelease = .055;
+    let voiceEnergy = 0;
     let target = 0;
-    let frameIndex = 0;
+    let idleIndex = 0;
+    let currentFrame = "";
+    let speaking = false;
+    let wasSpeaking = false;
+    let quietSince = 0;
+    let settleUntil = 0;
+    let testUntil = 0;
     let nextFrame = performance.now() + idleDurations[0];
+
+    [...idleFrames, ...Object.values(talkFrames)].forEach(source => {
+      const image = new Image();
+      image.src = source;
+    });
+
+    function showFrame(source) {
+      if (source === currentFrame) return;
+      currentFrame = source;
+      sprite.src = source;
+    }
+
+    showFrame(idleFrames[0]);
 
     function fitScene() {
       const scale = Math.min(innerWidth / 1280, innerHeight / 720);
@@ -41,7 +74,7 @@
         badge.classList.add("connected");
         conn.on("data", data => {
           if (data && data.type === "voice") target = Math.max(0, Math.min(1, Number(data.level) || 0));
-          if (data && data.type === "test") target = 1;
+          if (data && data.type === "test") testUntil = performance.now() + 1400;
         });
         conn.on("close", () => badge.classList.remove("connected"));
       });
@@ -58,15 +91,48 @@
     };
 
     function render(now) {
-      energy += (target - energy) * (target > energy ? .42 : .15);
-      target *= .9;
-      pet.style.setProperty("--energy", energy.toFixed(3));
-      if (now >= nextFrame) {
-        frameIndex = (frameIndex + 1) % idleFrames.length;
-        const frame = idleFrames[frameIndex];
-        sprite.src = `idle-${String(frame).padStart(2, "0")}.webp`;
-        nextFrame = now + (energy > .15 ? Math.max(80, idleDurations[frameIndex] * .55) : idleDurations[frameIndex]);
+      const testLevel = now < testUntil
+        ? .42 + ((Math.sin(now / 94) + 1) * .22)
+        : 0;
+      const activeTarget = Math.max(target, testLevel);
+      voiceEnergy += (activeTarget - voiceEnergy) * (activeTarget > voiceEnergy ? .38 : .12);
+      target *= .89;
+
+      if (!speaking && voiceEnergy >= speechOnset) {
+        speaking = true;
+        quietSince = 0;
+      } else if (speaking && voiceEnergy < speechRelease) {
+        quietSince ||= now;
+        if (now - quietSince > 190) speaking = false;
+      } else if (voiceEnergy >= speechRelease) {
+        quietSince = 0;
       }
+
+      pet.style.setProperty("--voice-energy", voiceEnergy.toFixed(3));
+      pet.dataset.speaking = speaking ? "true" : "false";
+
+      if (speaking) {
+        const cadence = Math.max(108, 172 - voiceEnergy * 46);
+        const phase = Math.floor(now / cadence) % 4;
+        let mouth = "rest";
+        if (phase === 1) mouth = voiceEnergy > .42 ? "open" : "round";
+        if (phase === 3) mouth = voiceEnergy > .58 ? "round" : "open";
+        showFrame(talkFrames[mouth]);
+        nextFrame = now + 900;
+        settleUntil = 0;
+      } else {
+        if (wasSpeaking) {
+          settleUntil = now + 180;
+          nextFrame = settleUntil + idleDurations[idleIndex];
+          showFrame(talkFrames.rest);
+        } else if (now >= settleUntil && now >= nextFrame) {
+          idleIndex = (idleIndex + 1) % idleFrames.length;
+          showFrame(idleFrames[idleIndex]);
+          nextFrame = now + idleDurations[idleIndex];
+        }
+      }
+
+      wasSpeaking = speaking;
       requestAnimationFrame(render);
     }
 

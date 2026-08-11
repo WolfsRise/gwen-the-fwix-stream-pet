@@ -2,9 +2,10 @@
   color-scheme: dark;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --scene-scale: 1;
-  --gwen-frame-base: url("gwen-midnight-grove-frame-browser-base-earless.png?v=20260810-botanical");
-  --gwen-frame-patches: url("gwen-midnight-grove-frame-patches-earless.png?v=20260810-botanical");
-  --gwen-chat-skin: url("gwen-midnight-grove-chat-overlay-earless.png?v=20260810-botanical");
+  --gwen-frame-base: url("gwen-midnight-grove-frame-browser-base-moon-cove.png?v=20260810-stream-clarity");
+  --gwen-frame-patches: url("gwen-midnight-grove-frame-patches-earless.png?v=20260810-stream-clarity");
+  --gwen-frame-ears: url("gwen-midnight-grove-frame-ears-signature.png?v=20260810-stream-clarity");
+  --gwen-chat-skin: url("gwen-midnight-grove-chat-overlay-geode-transparent.png?v=20260810-geode-chat");
   --gwen-wordmark: url("gwen-midnight-grove-wordmark-botanical-earless.png?v=20260810-botanical");
 }
 
@@ -43,11 +44,42 @@ html, body {
 .layout-pet #streamSkin { display: none; }
 
 #frameBase,
+#moonCoveGlow,
 #chatSkin,
 #wordmarkSkin,
-.framePatch {
+.framePatch,
+.chatCrystalPulse {
   position: absolute;
   pointer-events: none;
+}
+
+.earPatch {
+  position: absolute;
+  pointer-events: none;
+  background-image: var(--gwen-frame-ears);
+  background-size: 1280px 720px;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+.earLeft {
+  left: 8px;
+  top: 8px;
+  width: 62px;
+  height: 134px;
+  background-position: -8px -8px;
+  transform-origin: 17px 120px;
+  animation: ear-twitch-left 12.4s ease-in-out infinite;
+}
+
+.earRight {
+  left: 1210px;
+  top: 8px;
+  width: 62px;
+  height: 134px;
+  background-position: -1210px -8px;
+  transform-origin: 45px 120px;
+  animation: ear-twitch-right 15.2s ease-in-out infinite;
 }
 
 #frameBase {
@@ -56,10 +88,40 @@ html, body {
   animation: frame-breathe 4.2s ease-in-out infinite;
 }
 
+#moonCoveGlow {
+  left: 20px;
+  top: 34px;
+  width: 286px;
+  height: 620px;
+  overflow: hidden;
+  background: var(--gwen-frame-base) -20px -34px / 1280px 720px no-repeat;
+  opacity: .32;
+  transform-origin: 42% 48%;
+  animation: moon-cove-breathe 5.6s ease-in-out infinite alternate;
+}
+
 #chatSkin {
   inset: 0;
   background: var(--gwen-chat-skin) center / 1280px 720px no-repeat;
-  animation: chat-breathe 3.6s ease-in-out infinite alternate;
+  opacity: .84;
+  filter: drop-shadow(0 0 3px rgba(145, 72, 255, .22));
+}
+
+.chatCrystalPulse {
+  inset: 0;
+  background: var(--gwen-chat-skin) center / 1280px 720px no-repeat;
+  mix-blend-mode: screen;
+  will-change: opacity, filter;
+}
+
+.chatCrystalPurple {
+  clip-path: inset(198px 8px 286px 982px);
+  animation: chat-geode-purple 4.8s ease-in-out infinite alternate;
+}
+
+.chatCrystalAqua {
+  clip-path: inset(418px 8px 25px 982px);
+  animation: chat-geode-aqua 5.7s ease-in-out -2.2s infinite alternate;
 }
 
 #wordmarkSkin {
@@ -106,13 +168,13 @@ html, body {
 }
 
 #pet {
-  --energy: 0;
+  --voice-energy: 0;
   position: absolute;
   inset: 0;
   width: 192px;
   height: 208px;
   transform-origin: 50% 94%;
-  transform: translateY(calc(var(--energy) * -3px)) scaleX(calc(1 + var(--energy) * .018)) scaleY(calc(1 + var(--energy) * .026));
+  transform: none;
   filter: drop-shadow(0 5px 7px rgba(0, 0, 0, .28));
   animation: pet-life 8.6s ease-in-out infinite;
 }
@@ -123,6 +185,7 @@ html, body {
   width: 192px;
   height: 208px;
   object-fit: contain;
+  image-rendering: auto;
 }
 
 #connectionBadge {
@@ -145,9 +208,25 @@ html, body {
   50% { filter: drop-shadow(0 0 7px rgba(77, 232, 255, .30)) drop-shadow(0 0 9px rgba(151, 72, 255, .25)); }
 }
 
-@keyframes chat-breathe {
-  from { filter: brightness(.96) drop-shadow(0 0 5px rgba(145, 72, 255, .30)); }
-  to { filter: brightness(1.08) drop-shadow(0 0 10px rgba(67, 245, 218, .34)); }
+@keyframes chat-geode-purple {
+  from { opacity: .12; filter: brightness(.96) saturate(1.02) drop-shadow(0 0 2px rgba(166, 82, 255, .26)); }
+  to { opacity: .48; filter: brightness(1.30) saturate(1.30) drop-shadow(0 0 9px rgba(166, 82, 255, .74)); }
+}
+
+@keyframes chat-geode-aqua {
+  from { opacity: .10; filter: brightness(.97) saturate(1.02) drop-shadow(0 0 2px rgba(67, 245, 218, .24)); }
+  to { opacity: .44; filter: brightness(1.28) saturate(1.28) drop-shadow(0 0 8px rgba(67, 245, 218, .70)); }
+}
+
+@keyframes moon-cove-breathe {
+  from {
+    opacity: .16;
+    filter: brightness(.96) saturate(1.04) drop-shadow(0 0 5px rgba(69, 232, 255, .18));
+  }
+  to {
+    opacity: .38;
+    filter: brightness(1.22) saturate(1.18) drop-shadow(0 0 13px rgba(138, 75, 255, .34));
+  }
 }
 
 @keyframes crystal-aqua {
@@ -171,6 +250,24 @@ html, body {
   92% { transform: rotate(-2.2deg); }
   95% { transform: rotate(1.2deg); }
   98% { transform: rotate(-.5deg); }
+}
+
+@keyframes ear-twitch-left {
+  0%, 34%, 42%, 78%, 100% { transform: rotate(0); }
+  36% { transform: rotate(-2.4deg); }
+  38% { transform: rotate(1.5deg); }
+  40% { transform: rotate(-.7deg); }
+  80% { transform: rotate(1.4deg); }
+  82% { transform: rotate(-.5deg); }
+}
+
+@keyframes ear-twitch-right {
+  0%, 48%, 56%, 87%, 100% { transform: rotate(0); }
+  50% { transform: rotate(2.1deg); }
+  52% { transform: rotate(-1.3deg); }
+  54% { transform: rotate(.6deg); }
+  89% { transform: rotate(-1.2deg); }
+  91% { transform: rotate(.4deg); }
 }
 
 @keyframes pet-life {
@@ -220,5 +317,5 @@ details { margin-top: 18px; color: #cfc4d7; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #frameBase, #chatSkin, #pet, .framePatch { animation: none !important; }
+  #frameBase, #moonCoveGlow, #chatSkin, #pet, .framePatch, .earPatch, .chatCrystalPulse { animation: none !important; }
 }

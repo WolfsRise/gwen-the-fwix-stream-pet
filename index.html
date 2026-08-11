@@ -4,13 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Gwen the Fwix — Stream Pet</title>
-  <link rel="stylesheet" href="styles.css?v=20260810-botanical">
+  <link rel="stylesheet" href="styles.css?v=20260811-gwen-canon-v3">
 </head>
 <body>
   <main id="overlay" aria-label="Gwen stream overlay">
     <div id="scene" aria-hidden="true">
       <section id="streamSkin">
         <div id="frameBase"></div>
+        <div id="moonCoveGlow"></div>
+        <div class="earPatch earLeft"></div>
+        <div class="earPatch earRight"></div>
         <div class="framePatch leaves leavesLeft"></div>
         <div class="framePatch leaves leavesRight"></div>
         <div class="framePatch leaves plantBottomLeft"></div>
@@ -21,11 +24,13 @@
         <div class="framePatch crystal crystalBottomLeft aqua"></div>
         <div class="framePatch crystal crystalBottomRight purple"></div>
         <div id="chatSkin"></div>
+        <div class="chatCrystalPulse chatCrystalPurple"></div>
+        <div class="chatCrystalPulse chatCrystalAqua"></div>
         <div id="wordmarkSkin"></div>
       </section>
       <div id="petAnchor">
         <div id="pet">
-          <img id="sprite" src="idle-00.webp" alt="">
+          <img id="sprite" src="gwen-idle-v3-00.webp" alt="">
         </div>
       </div>
     </div>
@@ -36,7 +41,7 @@
     <section class="panel">
       <div class="eyebrow">GWEN THE FWIX</div>
       <h1>Voice controller</h1>
-      <p>This page analyzes microphone volume locally. It never sends or records your audio.</p>
+      <p>This page analyzes microphone volume locally. It never sends or records your audio. Gwen uses a quiet noise gate and three small, natural mouth shapes.</p>
       <label for="room">Private room code</label>
       <div class="row">
         <input id="room" autocomplete="off" spellcheck="false">
@@ -56,6 +61,6 @@
   </main>
 
   <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260811-gwen-canon-v3"></script>
 </body>
 </html>

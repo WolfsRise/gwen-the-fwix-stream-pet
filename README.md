@@ -7,10 +7,16 @@ Voice-reactive stream pet for Gwen's Twitch broadcasts from PlayStation 5 throug
 - The **Midnight Grove** gameplay layout combines the warm woodland frame, aqua/purple neon, the custom chat skin, and Gwen's moonlit avatar alcove.
 - Crystals pulse independently, plants sway subtly, and the frame ears and tail twitch on occasional unsynchronized beats.
 - The gameplay layout deliberately has no camera window; Gwen is the on-stream camera replacement.
-- Gwen idles with subtle whole-body and tail motion and reacts to controller voice energy.
+- Gwen now uses the archive-audited canon-v3 Fwixten design: mature fuller silhouette, maroon body markings, navy details, full aqua cheek glyph, one ear pair, and one enormous cream/maroon/multicolor plume tail.
+- Gwen idles slowly with subtle tail/expression changes and reacts to controller voice energy.
 - The Chrome controller analyzes microphone volume locally and sends only a normalized energy value.
-- The rejected temporary mouth overlay is disabled. Canonical closed, conversational, and emphasized mouth frames will replace it in a reviewed revision.
+- Voice reaction uses dedicated closed, small-open, and small-rounded mouth frames. A speech gate prevents background noise from making her chatter, and no whole-head or whole-body stretching is used as fake lip-sync.
+- All three voice poses share one pixel-identical body frame; only the tiny mouth region changes, with natural closures between vowels.
 - The repository is the source of truth for canon corrections, accessories, and version history.
+
+The archive-ready visual sources in this revision are `gwen-canonical-base-v3.png` and `gwen-codex-pet-canon-v3.webp`. Runtime overlay animation uses the smaller versioned `gwen-idle-v3-*` and `gwen-talk-*-v3` files.
+
+See `GWEN-CANON.md` for the character source hierarchy and non-negotiable visual rules.
 
 This is a zero-build static overlay with two URLs:
 
