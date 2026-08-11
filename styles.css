@@ -78,8 +78,6 @@ html, body {
   will-change: transform, opacity, filter;
 }
 
-.earLeft { left: 7px; top: 0; width: 71px; height: 96px; background-position: -7px 0; transform-origin: 36px 85px; animation: ear-left-twitch 9.8s ease-in-out infinite; }
-.earRight { left: 1202px; top: 0; width: 78px; height: 104px; background-position: -1202px 0; transform-origin: 37px 88px; animation: ear-right-twitch 11.4s ease-in-out infinite; }
 .leavesLeft { left: 12px; top: 0; width: 114px; height: 68px; background-position: -12px 0; transform-origin: 55px 58px; animation: leaves-sway-a 5.4s ease-in-out infinite alternate; }
 .leavesRight { left: 1030px; top: 0; width: 140px; height: 75px; background-position: -1030px 0; transform-origin: 74px 68px; animation: leaves-sway-b 6.2s ease-in-out infinite alternate; }
 .plantBottomLeft { left: 10px; top: 520px; width: 144px; height: 146px; background-position: -10px -520px; transform-origin: 74px 132px; animation: leaves-sway-a 4.8s ease-in-out infinite alternate; }
@@ -164,20 +162,6 @@ html, body {
 
 @keyframes leaves-sway-a { from { transform: rotate(-.9deg); } to { transform: rotate(1.05deg); } }
 @keyframes leaves-sway-b { from { transform: rotate(.8deg); } to { transform: rotate(-.85deg); } }
-
-@keyframes ear-left-twitch {
-  0%, 29%, 34%, 100% { transform: rotate(0); }
-  30% { transform: rotate(-4.4deg); }
-  31.4% { transform: rotate(2.2deg); }
-  33% { transform: rotate(-1deg); }
-}
-
-@keyframes ear-right-twitch {
-  0%, 61%, 66%, 100% { transform: rotate(0); }
-  62% { transform: rotate(4.1deg); }
-  63.5% { transform: rotate(-2deg); }
-  65% { transform: rotate(.8deg); }
-}
 
 @keyframes tail-twitch {
   0%, 41%, 53%, 89%, 100% { transform: rotate(0); }
