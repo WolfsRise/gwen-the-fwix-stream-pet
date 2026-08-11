@@ -12,6 +12,9 @@
 
   function startOverlay() {
     document.querySelector("#controller").remove();
+    const overlay = document.querySelector("#overlay");
+    const layout = params.get("layout") === "pet" ? "pet" : "gameplay";
+    overlay.classList.add(`layout-${layout}`);
     const pet = document.querySelector("#pet");
     const sprite = document.querySelector("#sprite");
     const badge = document.querySelector("#connectionBadge");
@@ -22,6 +25,14 @@
     let target = 0;
     let frameIndex = 0;
     let nextFrame = performance.now() + idleDurations[0];
+
+    function fitScene() {
+      const scale = Math.min(innerWidth / 1280, innerHeight / 720);
+      document.documentElement.style.setProperty("--scene-scale", String(scale));
+    }
+
+    fitScene();
+    addEventListener("resize", fitScene, { passive: true });
 
     function connect() {
       const peer = new Peer(`gwen-overlay-${room}`);
@@ -39,6 +50,12 @@
         setTimeout(connect, 2500);
       });
     }
+
+    window.gwenDebug = {
+      voice(level = 1) {
+        target = Math.max(0, Math.min(1, Number(level) || 0));
+      }
+    };
 
     function render(now) {
       energy += (target - energy) * (target > energy ? .42 : .15);
@@ -89,7 +106,7 @@
     startMic.addEventListener("click", enableMic, { once: true });
 
     function updateUrl() {
-      overlayUrl.textContent = `${location.origin}${location.pathname}?mode=overlay&room=${encodeURIComponent(room)}`;
+      overlayUrl.textContent = `${location.origin}${location.pathname}?mode=overlay&layout=gameplay&room=${encodeURIComponent(room)}`;
     }
 
     function connect() {
