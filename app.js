@@ -20,18 +20,18 @@
     const badge = document.querySelector("#connectionBadge");
     if (params.get("debug") === "1") badge.style.opacity = "1";
     const idleFrames = [
-      "gwen-idle-v3-00.webp",
-      "gwen-idle-v3-01.webp",
-      "gwen-idle-v3-02.webp",
-      "gwen-idle-v3-03.webp",
-      "gwen-idle-v3-04.webp",
-      "gwen-idle-v3-05.webp"
+      "gwen-idle-v3.1-00.webp",
+      "gwen-idle-v3.1-01.webp",
+      "gwen-idle-v3.1-02.webp",
+      "gwen-idle-v3.1-03.webp",
+      "gwen-idle-v3.1-04.webp",
+      "gwen-idle-v3.1-05.webp"
     ];
     const idleDurations = [2200, 180, 1900, 2400, 2100, 2300];
     const talkFrames = {
-      rest: "gwen-talk-rest-v3.webp",
-      open: "gwen-talk-open-v3.webp",
-      round: "gwen-talk-round-v3.webp"
+      rest: "gwen-talk-rest-v3.1.webp",
+      open: "gwen-talk-open-v3.1.webp",
+      round: "gwen-talk-round-v3.1.webp"
     };
     const speechOnset = .11;
     const speechRelease = .055;

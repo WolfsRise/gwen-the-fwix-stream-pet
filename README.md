@@ -7,14 +7,14 @@ Voice-reactive stream pet for Gwen's Twitch broadcasts from PlayStation 5 throug
 - The **Midnight Grove** gameplay layout combines the warm woodland frame, aqua/purple neon, the custom chat skin, and Gwen's moonlit avatar alcove.
 - Crystals pulse independently, plants sway subtly, and the frame ears and tail twitch on occasional unsynchronized beats.
 - The gameplay layout deliberately has no camera window; Gwen is the on-stream camera replacement.
-- Gwen now uses the archive-audited canon-v3 Fwixten design: mature fuller silhouette, maroon body markings, navy details, full aqua cheek glyph, one ear pair, and one enormous cream/maroon/multicolor plume tail.
+- Gwen now uses the creator-corrected canon-v3.1 Fwixten design: mature fuller silhouette, unmistakable digitigrade legs with raised hocks, maroon body markings, navy details, full aqua cheek glyph, one ear pair, and one enormous cream/maroon/multicolor plume tail.
 - Gwen idles slowly with subtle tail/expression changes and reacts to controller voice energy.
 - The Chrome controller analyzes microphone volume locally and sends only a normalized energy value.
 - Voice reaction uses dedicated closed, small-open, and small-rounded mouth frames. A speech gate prevents background noise from making her chatter, and no whole-head or whole-body stretching is used as fake lip-sync.
 - All three voice poses share one pixel-identical body frame; only the tiny mouth region changes, with natural closures between vowels.
 - The repository is the source of truth for canon corrections, accessories, and version history.
 
-The archive-ready visual sources in this revision are `gwen-canonical-base-v3.png` and `gwen-codex-pet-canon-v3.webp`. Runtime overlay animation uses the smaller versioned `gwen-idle-v3-*` and `gwen-talk-*-v3` files.
+The corrected visual source in this revision is `gwen-canonical-base-v3.1.png`. Runtime overlay animation uses the versioned `gwen-idle-v3.1-*` and `gwen-talk-*-v3.1` files. Earlier v3 assets remain in repository history for comparison and must not be used as anatomy reference.
 
 See `GWEN-CANON.md` for the character source hierarchy and non-negotiable visual rules.
 
