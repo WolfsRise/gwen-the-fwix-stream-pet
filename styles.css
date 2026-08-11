@@ -1,6 +1,11 @@
 :root {
   color-scheme: dark;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --scene-scale: 1;
+  --gwen-frame-base: url("gwen-midnight-grove-frame-browser-base.png");
+  --gwen-frame-patches: url("gwen-midnight-grove-frame-patches.png");
+  --gwen-chat-skin: url("gwen-midnight-grove-chat-overlay.png");
+  --gwen-wordmark: url("gwen-midnight-grove-wordmark.png");
 }
 
 * { box-sizing: border-box; }
@@ -17,19 +22,101 @@ html, body {
 #overlay {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: end center;
   pointer-events: none;
+}
+
+#scene {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1280px;
+  height: 720px;
+  transform: translate(-50%, -50%) scale(var(--scene-scale));
+  transform-origin: 50% 50%;
+}
+
+#streamSkin {
+  position: absolute;
+  inset: 0;
+}
+
+.layout-pet #streamSkin { display: none; }
+
+#frameBase,
+#chatSkin,
+#wordmarkSkin,
+.framePatch {
+  position: absolute;
+  pointer-events: none;
+}
+
+#frameBase {
+  inset: 0;
+  background: var(--gwen-frame-base) center / 1280px 720px no-repeat;
+  animation: frame-breathe 4.2s ease-in-out infinite;
+}
+
+#chatSkin {
+  inset: 0;
+  background: var(--gwen-chat-skin) center / 1280px 720px no-repeat;
+  animation: chat-breathe 3.6s ease-in-out infinite alternate;
+}
+
+#wordmarkSkin {
+  left: 350px;
+  top: 18px;
+  width: 580px;
+  height: 133px;
+  background: var(--gwen-wordmark) center / contain no-repeat;
+  filter: drop-shadow(0 0 8px rgba(128, 228, 255, .22));
+}
+
+.framePatch {
+  background-image: var(--gwen-frame-patches);
+  background-size: 1280px 720px;
+  background-repeat: no-repeat;
+  will-change: transform, opacity, filter;
+}
+
+.earLeft { left: 7px; top: 0; width: 71px; height: 96px; background-position: -7px 0; transform-origin: 36px 85px; animation: ear-left-twitch 9.8s ease-in-out infinite; }
+.earRight { left: 1202px; top: 0; width: 78px; height: 104px; background-position: -1202px 0; transform-origin: 37px 88px; animation: ear-right-twitch 11.4s ease-in-out infinite; }
+.leavesLeft { left: 12px; top: 0; width: 114px; height: 68px; background-position: -12px 0; transform-origin: 55px 58px; animation: leaves-sway-a 5.4s ease-in-out infinite alternate; }
+.leavesRight { left: 1030px; top: 0; width: 140px; height: 75px; background-position: -1030px 0; transform-origin: 74px 68px; animation: leaves-sway-b 6.2s ease-in-out infinite alternate; }
+.plantBottomLeft { left: 10px; top: 520px; width: 144px; height: 146px; background-position: -10px -520px; transform-origin: 74px 132px; animation: leaves-sway-a 4.8s ease-in-out infinite alternate; }
+.plantBottomRight { left: 1082px; top: 597px; width: 182px; height: 123px; background-position: -1082px -597px; transform-origin: 114px 110px; animation: leaves-sway-b 5.7s ease-in-out infinite alternate; }
+.tail { left: 205px; top: 552px; width: 280px; height: 152px; background-position: -205px -552px; transform-origin: 25px 118px; animation: tail-twitch 10.8s ease-in-out infinite; }
+
+.crystal { opacity: .86; mix-blend-mode: screen; }
+.crystal.aqua { animation: crystal-aqua 2.4s ease-in-out infinite alternate; }
+.crystal.purple { animation: crystal-purple 2.9s ease-in-out infinite alternate; }
+.crystalTopLeft { left: 54px; top: 41px; width: 88px; height: 128px; background-position: -54px -41px; }
+.crystalTopRight { left: 1082px; top: 42px; width: 132px; height: 145px; background-position: -1082px -42px; }
+.crystalBottomLeft { left: 4px; top: 490px; width: 135px; height: 190px; background-position: -4px -490px; }
+.crystalBottomRight { left: 1138px; top: 573px; width: 142px; height: 147px; background-position: -1138px -573px; }
+
+#petAnchor {
+  position: absolute;
+  left: 72px;
+  bottom: 62px;
+  width: 192px;
+  height: 208px;
+}
+
+.layout-pet #petAnchor {
+  left: 544px;
+  bottom: 0;
 }
 
 #pet {
   --energy: 0;
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 192px;
   height: 208px;
   transform-origin: 50% 94%;
   transform: translateY(calc(var(--energy) * -3px)) scaleX(calc(1 + var(--energy) * .018)) scaleY(calc(1 + var(--energy) * .026));
   filter: drop-shadow(0 5px 7px rgba(0, 0, 0, .28));
+  animation: pet-life 8.6s ease-in-out infinite;
 }
 
 #sprite {
@@ -54,6 +141,59 @@ html, body {
 }
 
 #connectionBadge.connected { opacity: 0; }
+
+@keyframes frame-breathe {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(77, 232, 255, .18)) drop-shadow(0 0 4px rgba(151, 72, 255, .15)); }
+  50% { filter: drop-shadow(0 0 7px rgba(77, 232, 255, .30)) drop-shadow(0 0 9px rgba(151, 72, 255, .25)); }
+}
+
+@keyframes chat-breathe {
+  from { filter: brightness(.96) drop-shadow(0 0 5px rgba(145, 72, 255, .30)); }
+  to { filter: brightness(1.08) drop-shadow(0 0 10px rgba(67, 245, 218, .34)); }
+}
+
+@keyframes crystal-aqua {
+  from { opacity: .42; filter: brightness(1.0) saturate(1.05) drop-shadow(0 0 3px rgba(77, 255, 220, .55)); }
+  to { opacity: .92; filter: brightness(1.45) saturate(1.4) drop-shadow(0 0 13px rgba(77, 255, 220, .98)); }
+}
+
+@keyframes crystal-purple {
+  from { opacity: .38; filter: brightness(.98) saturate(1.0) drop-shadow(0 0 3px rgba(167, 79, 255, .55)); }
+  to { opacity: .95; filter: brightness(1.5) saturate(1.5) drop-shadow(0 0 14px rgba(167, 79, 255, .98)); }
+}
+
+@keyframes leaves-sway-a { from { transform: rotate(-.9deg); } to { transform: rotate(1.05deg); } }
+@keyframes leaves-sway-b { from { transform: rotate(.8deg); } to { transform: rotate(-.85deg); } }
+
+@keyframes ear-left-twitch {
+  0%, 29%, 34%, 100% { transform: rotate(0); }
+  30% { transform: rotate(-4.4deg); }
+  31.4% { transform: rotate(2.2deg); }
+  33% { transform: rotate(-1deg); }
+}
+
+@keyframes ear-right-twitch {
+  0%, 61%, 66%, 100% { transform: rotate(0); }
+  62% { transform: rotate(4.1deg); }
+  63.5% { transform: rotate(-2deg); }
+  65% { transform: rotate(.8deg); }
+}
+
+@keyframes tail-twitch {
+  0%, 41%, 53%, 89%, 100% { transform: rotate(0); }
+  44% { transform: rotate(2.7deg); }
+  47% { transform: rotate(-1.6deg); }
+  50% { transform: rotate(.8deg); }
+  92% { transform: rotate(-2.2deg); }
+  95% { transform: rotate(1.2deg); }
+  98% { transform: rotate(-.5deg); }
+}
+
+@keyframes pet-life {
+  0%, 44%, 48%, 100% { rotate: 0deg; }
+  45% { rotate: -.45deg; }
+  46.5% { rotate: .35deg; }
+}
 
 #controller {
   min-height: 100%;
@@ -93,4 +233,8 @@ details { margin-top: 18px; color: #cfc4d7; }
 @media (max-width: 520px) {
   #controller { padding: 12px; }
   .panel { padding: 20px; border-radius: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #frameBase, #chatSkin, #pet, .framePatch { animation: none !important; }
 }
